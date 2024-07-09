@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -82,10 +83,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'musica_armonia',  # Nombre de tu base de datos MySQL
-        'USER': 'root',
-        'PASSWORD': 'admin',
+        'USER': 'prueba',
+        'PASSWORD': '123321',
         'HOST': 'localhost',  # Cambiar si la base de datos está en otro lugar
         'PORT': '3306',  # Puerto MySQL
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
 
