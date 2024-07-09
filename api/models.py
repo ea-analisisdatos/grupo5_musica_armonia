@@ -50,10 +50,10 @@ class Classes(models.Model):
 
 class Levels(models.Model):
     name = models.CharField(max_length=100)
-    _class_id= models.ForeignKey(Classes, on_delete=models.CASCADE)
+    _class= models.ForeignKey(Classes, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} - {self._class_id.name}"
+        return f"{self.name} - {self._class.name}"
 
     class Meta:
         db_table = 'Levels'
