@@ -53,7 +53,7 @@ class Levels(models.Model):
     _class = models.ForeignKey(Classes, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} - {_class.name}"
+        return f"{self.name} - {self._class.name}"
 
     class Meta:
         db_table = 'Levels'
