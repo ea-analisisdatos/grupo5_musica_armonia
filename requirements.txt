@@ -28,3 +28,4 @@ Werkzeug==3.0.3
 setuptools==70.2.0
 cryptography==42.0.8
 Python==3.12.4
+python_dotenv==1.0.1
