@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .models import Teacher, ClassPack, Instrument, Price, Classes, Levels, TeacherClasses, Students, Enrollments, ClassPackDiscountRules, ClassPackClasses
+from .models import Teacher, ClassPack, Instrument, Price, Classe, Level, TeacherClasse, Student, Enrollment, ClassPackDiscountRules, ClassPackClasse
 from .serializers import TeacherSerializer, ClassPackSerializer, InstrumentSerializer, PriceSerializer, ClassesSerializer, LevelsSerializer, TeacherClassesSerializer, StudentsSerializer, EnrollmentsSerializer, ClassPackDiscountRulesSerializer, ClassPackClassesSerializer
 
 class TeacherViewSet(viewsets.ModelViewSet):
@@ -18,30 +18,30 @@ class PriceViewSet(viewsets.ModelViewSet):
     queryset = Price.objects.all()
     serializer_class = PriceSerializer
 
-class ClassesViewSet(viewsets.ModelViewSet):
-    queryset = Classes.objects.all()
+class ClasseViewSet(viewsets.ModelViewSet):
+    queryset = Classe.objects.all()
     serializer_class = ClassesSerializer
 
 class LevelsViewSet(viewsets.ModelViewSet):
-    queryset = Levels.objects.all()
+    queryset = Level.objects.all()
     serializer_class = LevelsSerializer
 
-class TeacherClassesViewSet(viewsets.ModelViewSet):
-    queryset = TeacherClasses.objects.all()
+class TeacherClasseViewSet(viewsets.ModelViewSet):
+    queryset = TeacherClasse.objects.all()
     serializer_class = TeacherClassesSerializer
 
-class StudentsViewSet(viewsets.ModelViewSet):
-    queryset = Students.objects.all()
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
     serializer_class = StudentsSerializer
 
-class EnrollmentsViewSet(viewsets.ModelViewSet):
-    queryset = Enrollments.objects.all()
+class EnrollmentViewSet(viewsets.ModelViewSet):
+    queryset = Enrollment.objects.all()
     serializer_class = EnrollmentsSerializer
 
 class ClassPackDiscountRulesViewSet(viewsets.ModelViewSet):
     queryset = ClassPackDiscountRules.objects.all()
     serializer_class = ClassPackDiscountRulesSerializer
 
-class ClassPackClassesViewSet(viewsets.ModelViewSet):
-    queryset = ClassPackClasses.objects.all()
+class ClassPackClasseViewSet(viewsets.ModelViewSet):
+    queryset = ClassPackClasse.objects.all()
     serializer_class = ClassPackClassesSerializer

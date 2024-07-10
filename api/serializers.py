@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Teacher, ClassPack, Instrument, Price, Classes, Levels, TeacherClasses, Students, Enrollments, ClassPackDiscountRules, ClassPackClasses
+from .models import Teacher, ClassPack, Instrument, Price, Classe, Level, TeacherClasse, Student, Enrollment, ClassPackDiscountRules, ClassPackClasse
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,27 +23,27 @@ class PriceSerializer(serializers.ModelSerializer):
 
 class ClassesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Classes
+        model = Classe
         fields = '__all__'
 
 class LevelsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Levels
+        model = Level
         fields = '__all__'
 
 class TeacherClassesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TeacherClasses
+        model = TeacherClasse
         fields = '__all__'
 
 class StudentsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Students
+        model = Student
         fields = '__all__'
 
 class EnrollmentsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Enrollments
+        model = Enrollment
         fields = '__all__'
 
 class ClassPackDiscountRulesSerializer(serializers.ModelSerializer):
@@ -53,5 +53,5 @@ class ClassPackDiscountRulesSerializer(serializers.ModelSerializer):
 
 class ClassPackClassesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ClassPackClasses
+        model = ClassPackClasse
         fields = '__all__'
