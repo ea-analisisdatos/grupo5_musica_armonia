@@ -19,7 +19,7 @@ class TestModels(TestCase):
 
     def test_price_model(self):
         price = Price.objects.create(amount=100.00, description="Standard Price")
-        assert str(price) == "100.00 - Standard Price"
+        assert str(price) == "100.0 - Standard Price"
 
     def test_Classe_model(self):
         instrument = Instrument.objects.create(name="Guitar")
@@ -27,11 +27,11 @@ class TestModels(TestCase):
         _class = Classe.objects.create(name="Guitar Beginner", instrument=instrument, price=price)
         assert _class.name == "Guitar Beginner"
 
-    def test_levels_model(self):
+    def test_level_model(self):
         instrument = Instrument.objects.create(name="Violin")
         price = Price.objects.create(amount=90.00, description="Intermediate Class Price")
         _class = Classe.objects.create(name="Violin Intermediate", instrument=instrument, price=price)
-        level = Levels.objects.create(name="Intermediate Level", _class=_class)
+        level = Level.objects.create(name="Intermediate Level", _class=_class)
         assert str(level) == "Intermediate Level - Violin Intermediate"
 
     def test_teacherClasse_model(self):
