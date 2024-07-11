@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator #permite ingresar solo numeros positivos
 
 class Teacher(models.Model):
     name = models.CharField(max_length=100)
@@ -72,7 +73,17 @@ class Student(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     age = models.IntegerField()
-    phone = models.CharField(max_length=15, blank=True, null=True)
+    phone = models.CharField(
+        max_length=15, 
+        blank=True, 
+        null=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?\d+$',
+                message='El número de teléfono debe contener solo dígitos y hasta 15 caracteres.'
+            )
+        ]
+    )
     email = models.EmailField(blank=True, null=True)
     family_discount = models.BooleanField(default=False)
 
