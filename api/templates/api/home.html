@@ -170,7 +170,20 @@
                     <h2>Instrumentos</h2>
                     <ul class="list-group">
                         {% for instrument in instruments %}
-                        <li class="list-group-item">{{ instrument.name }}</li>
+                        <li class="list-group-item">
+                            {{ instrument.name }}
+                            <div class="d-flex align-items-center">
+                                <a href="{% url 'edit_instrument' instrument.id %}" class="btn btn-warning btn-sm me-2" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <form action="{% url 'delete_instrument' instrument.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Eliminar Instrumento">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
                         {% empty %}
                         <li class="list-group-item">No hay instrumentos disponibles</li>
                         {% endfor %}

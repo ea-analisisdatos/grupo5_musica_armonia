@@ -143,6 +143,17 @@ def edit_teacher(request, teacher_id):
         form = TeacherForm(instance=teacher)
     return render(request, 'api/edit_teacher.html', {'form': form})
 
+def edit_instrument(request, instrument_id):
+    instrument = get_object_or_404(Instrument, id=instrument_id)
+    if request.method == 'POST':
+        form = InstrumentForm(request.POST, instance=instrument)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = InstrumentForm(instance=instrument)
+    return render(request, 'api/edit_instrument.html', {'form': form})
+
 def execute_query(request):
     with connection.cursor() as cursor:
         # Configurar el idioma español para la conexión
