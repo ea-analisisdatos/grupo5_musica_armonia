@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pk^n+faz4kw*h&6m+_k&v-qp88z%*8c45)l**(reb(14jj@^ci'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,8 +85,8 @@ WSGI_APPLICATION = 'academia_musica.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musica_v8',  # Nombre de tu base de datos MySQL
-        'USER': 'root',
+        'NAME': 'musica_armonia',  # Nombre de tu base de datos MySQL
+        'USER': 'Mar',
         'PASSWORD': os.getenv ('DB_PASSWORD'),
         'HOST': 'localhost',  # Cambiar si la base de datos está en otro lugar
         'PORT': '3306',  # Puerto MySQL
