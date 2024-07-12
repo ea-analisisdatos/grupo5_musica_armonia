@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import RegexValidator #permite ingresar solo numeros positivos
 
 class Teacher(models.Model):
     name = models.CharField(max_length=100)
@@ -17,7 +16,7 @@ class ClassPack(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'Class_Packs'
+        db_table = 'Class_Pack'
 
 class Instrument(models.Model):
     name = models.CharField(max_length=100)
@@ -26,7 +25,7 @@ class Instrument(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'Instruments'
+        db_table = 'Instrument'
 
 class Price(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -36,9 +35,9 @@ class Price(models.Model):
         return f"{self.amount} - {self.description}"
 
     class Meta:
-        db_table = 'Prices'
+        db_table = 'Price'
 
-class Classe(models.Model):
+class Class(models.Model):
     name = models.CharField(max_length=100)
     instrument = models.ForeignKey(Instrument, on_delete=models.CASCADE)
     price = models.ForeignKey(Price, on_delete=models.CASCADE)
@@ -47,43 +46,33 @@ class Classe(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'Classe'
+        db_table = 'Class'
 
 class Level(models.Model):
     name = models.CharField(max_length=100)
-    _class= models.ForeignKey(Classe, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, db_column='class_id')
 
     def __str__(self):
-        return f"{self.name} - {self._class.name}"
+        return f"{self.name} - {self.class_id.name}"
 
     class Meta:
         db_table = 'Level'
 
-class TeacherClasse(models.Model):
+class TeacherClass(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    _class = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, db_column='class_id')
 
     def __str__(self):
-        return f"{self.teacher.name} - {self._class.name}"
+        return f"{self.teacher.name} - {self.class_id.name}"
 
     class Meta:
-        db_table = 'Teacher_Classe'
+        db_table = 'Teacher_Class'
 
 class Student(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     age = models.IntegerField()
-    phone = models.CharField(
-        max_length=15, 
-        blank=True, 
-        null=True,
-        validators=[
-            RegexValidator(
-                regex=r'^\+?\d+$',
-                message='El número de teléfono debe contener solo dígitos y hasta 15 caracteres.'
-            )
-        ]
-    )
+    phone = models.CharField(max_length=15, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     family_discount = models.BooleanField(default=False)
 
@@ -95,19 +84,19 @@ class Student(models.Model):
 
 class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    _class = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, db_column='class_id')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, blank=True, null=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE, blank=True, null=True)
     enrollment_date = models.DateField()
     class_number = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.student.first_name} {self.student.last_name} - {self._class.name}"
+        return f"{self.student.first_name} {self.student.last_name} - {self.class_id.name}"
 
     class Meta:
         db_table = 'Enrollment'
 
-class ClassPackDiscountRules(models.Model):
+class ClassPackDiscountRule(models.Model):
     class_pack = models.ForeignKey(ClassPack, on_delete=models.CASCADE)
     class_number = models.IntegerField()
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
@@ -116,14 +105,14 @@ class ClassPackDiscountRules(models.Model):
         return f"{self.class_pack.name} - {self.class_number}"
 
     class Meta:
-        db_table = 'Class_Pack_Discount_Rules'
+        db_table = 'Class_Pack_Discount_Rule'
 
-class ClassPackClasse(models.Model):
+class ClassPackClass(models.Model):
     class_pack = models.ForeignKey(ClassPack, on_delete=models.CASCADE)
-    _class = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, db_column='class_id')
 
     def __str__(self):
-        return f"{self.class_pack.name} - {self._class.name}"
+        return f"{self.class_pack.name} - {self.class_id.name}"
 
     class Meta:
-        db_table = 'Class_Pack_Classe'
+        db_table = 'Class_Pack_Class'
