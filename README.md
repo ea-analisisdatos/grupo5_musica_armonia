@@ -12,3 +12,6 @@ Imaginemos un sistema donde:
 - 🗃️ **La información nunca se extravía y está disponible cuando Mar lo necesite.**
 
 Con nuestra solución, Mar podrá dedicar más tiempo al crecimiento y la gestión de su escuela, asegurando que el éxito de la Escuela de Música Armonía continúe de manera sostenible. ¡Estamos listos para transformar la administración de la escuela y llevarla al siguiente nivel digital! 🚀🎵
+
+
+https://www.notion.so/Manual-de-uso-de-la-API-Escuela-de-M-sica-Armon-a-3e10e5a5ec3a493b88c57e01bfba9f92
