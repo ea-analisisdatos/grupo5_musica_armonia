@@ -85,8 +85,8 @@ WSGI_APPLICATION = 'academia_musica.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musica_armonia',  # Nombre de tu base de datos MySQL
-        'USER': 'Mar',
+        'NAME': 'musica_v8',  # Nombre de tu base de datos MySQL
+        'USER': 'root',
         'PASSWORD': os.getenv ('DB_PASSWORD'),
         'HOST': 'localhost',  # Cambiar si la base de datos está en otro lugar
         'PORT': '3306',  # Puerto MySQL
@@ -132,7 +132,10 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-]
+]# Opcional para manejo de archivos de usuario (no necesario para esta tarea en específico)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
