@@ -9,6 +9,10 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -83,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'musica_v8',  # Nombre de tu base de datos MySQL
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': os.getenv ('DB_PASSWORD'),
         'HOST': 'localhost',  # Cambiar si la base de datos está en otro lugar
         'PORT': '3306',  # Puerto MySQL
     }
