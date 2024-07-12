@@ -85,8 +85,8 @@ WSGI_APPLICATION = 'academia_musica.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musica_v8',  # Nombre de tu base de datos MySQL
-        'USER': 'root',
+        'NAME': 'musica_armonia',  # Nombre de tu base de datos MySQL
+        'USER': 'Mar',
         'PASSWORD': os.getenv ('DB_PASSWORD'),
         'HOST': 'localhost',  # Cambiar si la base de datos está en otro lugar
         'PORT': '3306',  # Puerto MySQL
