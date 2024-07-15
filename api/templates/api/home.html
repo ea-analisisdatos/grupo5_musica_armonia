@@ -87,7 +87,20 @@
                         <p>No hay clases disponibles</p>
                         {% endfor %}
                     </div>
-                    
+                    <div class="mt-3">
+                        <!-- Aquí iteramos sobre los precios -->
+                            <ul class="list-group">
+                                <h3 class="text-secondary">Precios de las Clases</h3>
+                                {% for price in prices %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="fs-small fw-lighter">{{ price.description }}</span> <span class="position-absolute top-0 start-100 translate-price badge rounded-pill bg-danger">{{ price.amount }}€</span>
+                                    <a href="{% url 'edit_price' price.pk %}" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                                </li>
+                                {% empty %}
+                                <li class="list-group-item">No hay precios disponibles</li>
+                                {% endfor %}
+                            </ul>
+                    </div>
                 </div>
             </div>
         </div>

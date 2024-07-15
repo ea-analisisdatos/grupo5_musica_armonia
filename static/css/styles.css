@@ -39,3 +39,6 @@ ul.navbar-nav li {
     padding-left: 2rem;
     padding-right: 2rem;
 }
+.translate-price {
+    transform: translate(-190%, -30%) !important;
+}
