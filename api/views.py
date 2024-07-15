@@ -5,7 +5,7 @@ from .models import Teacher, ClassPack, Instrument, Price, Class, Level, Teacher
 from .serializers import TeacherSerializer, ClassPackSerializer, InstrumentSerializer, PriceSerializer, ClassSerializer, LevelSerializer, TeacherClassSerializer, StudentSerializer, EnrollmentSerializer, ClassPackDiscountRuleSerializer, ClassPackClassSerializer
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm
+from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm, ClassPackForm, PriceForm
 from django import forms
 from django.db import connection
 
@@ -97,20 +97,6 @@ def create_student(request):
     }
     return render(request, 'api/create_student.html', context)
 
-def create_teacher(request):
-    if request.method == 'POST':
-        form = TeacherForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = TeacherForm()
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'api/create_teacher.html', context)
-
 def create_instrument(request):
     if request.method == 'POST':
         form = InstrumentForm(request.POST)
@@ -125,12 +111,30 @@ def create_instrument(request):
     }
     return render(request, 'api/create_instrument.html', context)
 
+def create_teacher(request):
+    if request.method == 'POST':
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = TeacherForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'api/create_teacher.html', context)
+
 def delete_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     if request.method == 'POST':
         teacher.delete()
         return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
-    return render(request, 'api/confirm_delete.html', {'teacher': teacher})
+    context = {
+    'object_type': 'profesor',  # Especifica aquí el tipo de objeto que estás eliminando
+    'teacher': teacher
+    }
+    return render(request, 'api/confirm_delete.html', context)
 
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
@@ -143,7 +147,51 @@ def edit_teacher(request, teacher_id):
         form = TeacherForm(instance=teacher)
     return render(request, 'api/edit_teacher.html', {'form': form})
 
-def execute_query(request):
+
+def create_class_pack(request):
+    if request.method == 'POST':
+        form = ClassPackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ClassPackForm()
+    return render(request, 'api/create_class_pack.html', {'form': form})
+
+def edit_class_pack(request, pk):
+    class_pack = get_object_or_404(ClassPack, pk=pk)
+    if request.method == 'POST':
+        form = ClassPackForm(request.POST, instance=class_pack)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ClassPackForm(instance=class_pack)
+    return render(request, 'api/edit_class_pack.html', {'form': form})
+
+def delete_class_pack(request, pk):
+    class_pack = get_object_or_404(ClassPack, pk=pk)
+    if request.method == 'POST':
+        class_pack.delete()
+        return redirect('home')
+    context = {
+    'object_type': 'paquete de clases',  # Especifica aquí el tipo de objeto que estás eliminando
+    'class_pack': class_pack
+    }
+    return render(request, 'api/confirm_delete.html', context)
+
+def edit_price(request, pk):
+    price = get_object_or_404(Price, pk=pk)
+    if request.method == 'POST':
+        form = PriceForm(request.POST, instance=price)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PriceForm(instance=price)
+    return render(request, 'api/edit_price.html', {'form': form, 'price': price})
+
+def execute_query_month(request):
     with connection.cursor() as cursor:
         # Configurar el idioma español para la conexión
         cursor.execute("SET lc_time_names = 'es_ES';")
@@ -171,7 +219,50 @@ def execute_query(request):
         columns = [col[0] for col in cursor.description]
         data = cursor.fetchall()
 
-    return render(request, 'api/query_results.html', {'columns': columns, 'data': data})
+    return render(request, 'api/query_results_month.html', {'columns': columns, 'data': data})
+
+def execute_query_total_due(request):
+    with connection.cursor() as cursor:
+        # Ejecutar la nueva consulta
+        cursor.execute("""
+            SELECT 
+                s.first_name AS Nombre,
+                s.last_name AS Apellidos,
+                CONCAT(FORMAT(
+                    SUM(
+                        CASE 
+                            WHEN e.class_number = 1 THEN 
+                                p.amount  -- Primera clase, sin descuento
+                            WHEN e.class_number = 2 THEN 
+                                p.amount * 0.5  -- Segunda clase, 50% descuento
+                            WHEN e.class_number >= 3 THEN 
+                                p.amount * 0.25  -- Tercera o más, 75% descuento
+                            ELSE 
+                                p.amount  -- Caso por defecto (sin descuento)
+                        END * 
+                        (CASE 
+                            WHEN s.family_discount = TRUE THEN 0.9  -- Aplica un 10% de descuento adicional si hay descuento familiar
+                            ELSE 1  -- Sin descuento adicional
+                        END)
+                    ), 2
+                ), ' €') AS "Total Deuda"
+            FROM 
+                Student s
+            JOIN 
+                Enrollment e ON s.id = e.student_id
+            JOIN 
+                Class c ON e.class_id = c.id
+            JOIN 
+                Price p ON c.price_id = p.id
+            GROUP BY 
+                s.id, s.first_name, s.last_name
+            ORDER BY 
+                s.last_name, s.first_name;
+        """)
+        columns = [col[0] for col in cursor.description]
+        data = cursor.fetchall()
+
+    return render(request, 'api/query_results_total_due.html', {'columns': columns, 'data': data})
 
 class EnrollmentForm(forms.ModelForm):
     class Meta:

@@ -23,7 +23,7 @@
 
 .price-tag {
     font-weight: bold;
-    color: #28a745;
+    color: #05737d;
 }
 
 .navbar-brand img {
@@ -34,4 +34,8 @@
     padding: 15px;
     border-radius: 5px;
     margin-top: 20px;
+}
+ul.navbar-nav li {
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
