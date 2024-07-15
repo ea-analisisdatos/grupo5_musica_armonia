@@ -1,47 +1,14 @@
 {% extends 'api/base_generic.html' %}
 
 {% block content %}
-    <!-- Barra de navegación -->
-    <div class="container">
-        <div class="row">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light col-12">
-                <a class="navbar-brand" href="#">
-                    <img src="https://img.icons8.com/ios-filled/50/000000/music.png" width="30" height="30" class="d-inline-block align-top" alt="">
-                    Academia de Música
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#clases">Clases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#precios">Precios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#inscripciones">Inscripciones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#profesores">Profesores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#datos">Datos</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
 
     <div class="container d-flex justify-content-center">
-        <div class="center mt-3">
+        <div class="center mt-5">
             <h1 class="text-muted fw-bold">Bienvenido a la Academia de Música Grupo 5</h1>
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <div class="row">
             <div class="col-md-6" id="profesores">
                 <div class="section-background">
@@ -189,8 +156,9 @@
             </div>
             <div class="col-md-6">
                 <div class="section-background">
-                    <h2>Datos</h2>
-                    <a href="{% url 'execute_query' %}" class="btn btn-info mt-3">Datos de inscripción</a>
+                    <h2 class="text-secondary">Datos</h2>
+                    <a href="{% url 'execute_query_month' %}" class="btn btn-info mt-3">Inscripciones mensuales</a>
+                    <a href="{% url 'execute_query_total_due' %}" class="btn btn-primary mt-3">Total Deuda</a>
                 </div>
             </div>
         </div>
