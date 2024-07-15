@@ -153,7 +153,20 @@
                     <h2>Alumnos Inscritos</h2>
                     <ul class="list-group">
                         {% for student in students %}
-                        <li class="list-group-item">{{ student.first_name }} {{ student.last_name }}</li>
+                        <li class="list-group-item">
+                            {{ student.first_name }} {{ student.last_name }}
+                            <div class="d-flex align-items-center">
+                                <a href="{% url 'edit_student' student.id %}" class="btn btn-warning btn-sm me-2" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <form action="{% url 'delete_student' student.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Eliminar Alumno">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
                         {% empty %}
                         <li class="list-group-item">No hay alumnos inscritos disponibles</li>
                         {% endfor %}

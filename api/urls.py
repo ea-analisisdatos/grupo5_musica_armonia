@@ -26,6 +26,8 @@ urlpatterns = [
     path('create_instrument/', views.create_instrument, name='create_instrument'),
     path('delete_teacher/<int:teacher_id>/', views.delete_teacher, name='delete_teacher'),
     path('edit_teacher/<int:teacher_id>/', views.edit_teacher, name='edit_teacher'),  
-    path('delete_instrument/<int:instrument_id>/', views.delete_teacher, name='delete_instrument'),
-    path('edit_instrument/<int:instrument_id>/', views.edit_teacher, name='edit_instrument'),  
+    path('delete_instrument/<int:instrument_id>/', views.delete_instrument, name='delete_instrument'),
+    path('edit_instrument/<int:instrument_id>/', views.edit_instrument, name='edit_instrument'),  
+    path('delete_student/<int:student_id>/', views.delete_student, name='delete_student'),
+    path('edit_student/<int:student_id>/', views.edit_student, name='edit_student'),  
 ]

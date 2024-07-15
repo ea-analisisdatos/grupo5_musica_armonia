@@ -132,6 +132,20 @@ def delete_teacher(request, teacher_id):
         return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
     return render(request, 'api/confirm_delete.html', {'teacher': teacher})
 
+def delete_instrument(request, instrument_id):
+    instrument = get_object_or_404(Instrument, id=instrument_id)
+    if request.method == 'POST':
+        instrument.delete()
+        return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
+    return render(request, 'api/confirm_delete.html', {'instrument': instrument})
+
+def delete_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
+    return render(request, 'api/confirm_delete.html', {'student': student})
+
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     if request.method == 'POST':
@@ -153,6 +167,17 @@ def edit_instrument(request, instrument_id):
     else:
         form = InstrumentForm(instance=instrument)
     return render(request, 'api/edit_instrument.html', {'form': form})
+
+def edit_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'api/edit_student.html', {'form': form})
 
 def execute_query(request):
     with connection.cursor() as cursor:
