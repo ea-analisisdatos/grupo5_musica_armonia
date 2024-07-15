@@ -5,7 +5,7 @@ from .models import Teacher, ClassPack, Instrument, Price, Class, Level, Teacher
 from .serializers import TeacherSerializer, ClassPackSerializer, InstrumentSerializer, PriceSerializer, ClassSerializer, LevelSerializer, TeacherClassSerializer, StudentSerializer, EnrollmentSerializer, ClassPackDiscountRuleSerializer, ClassPackClassSerializer
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm, ClassPackForm
+from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm, ClassPackForm, PriceForm
 from django import forms
 from django.db import connection
 
@@ -180,7 +180,18 @@ def delete_class_pack(request, pk):
     }
     return render(request, 'api/confirm_delete.html', context)
 
-def execute_query(request):
+def edit_price(request, pk):
+    price = get_object_or_404(Price, pk=pk)
+    if request.method == 'POST':
+        form = PriceForm(request.POST, instance=price)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PriceForm(instance=price)
+    return render(request, 'api/edit_price.html', {'form': form, 'price': price})
+
+def execute_query_month(request):
     with connection.cursor() as cursor:
         # Configurar el idioma español para la conexión
         cursor.execute("SET lc_time_names = 'es_ES';")
@@ -208,7 +219,50 @@ def execute_query(request):
         columns = [col[0] for col in cursor.description]
         data = cursor.fetchall()
 
-    return render(request, 'api/query_results.html', {'columns': columns, 'data': data})
+    return render(request, 'api/query_results_month.html', {'columns': columns, 'data': data})
+
+def execute_query_total_due(request):
+    with connection.cursor() as cursor:
+        # Ejecutar la nueva consulta
+        cursor.execute("""
+            SELECT 
+                s.first_name AS Nombre,
+                s.last_name AS Apellidos,
+                CONCAT(FORMAT(
+                    SUM(
+                        CASE 
+                            WHEN e.class_number = 1 THEN 
+                                p.amount  -- Primera clase, sin descuento
+                            WHEN e.class_number = 2 THEN 
+                                p.amount * 0.5  -- Segunda clase, 50% descuento
+                            WHEN e.class_number >= 3 THEN 
+                                p.amount * 0.25  -- Tercera o más, 75% descuento
+                            ELSE 
+                                p.amount  -- Caso por defecto (sin descuento)
+                        END * 
+                        (CASE 
+                            WHEN s.family_discount = TRUE THEN 0.9  -- Aplica un 10% de descuento adicional si hay descuento familiar
+                            ELSE 1  -- Sin descuento adicional
+                        END)
+                    ), 2
+                ), ' €') AS "Total Deuda"
+            FROM 
+                Student s
+            JOIN 
+                Enrollment e ON s.id = e.student_id
+            JOIN 
+                Class c ON e.class_id = c.id
+            JOIN 
+                Price p ON c.price_id = p.id
+            GROUP BY 
+                s.id, s.first_name, s.last_name
+            ORDER BY 
+                s.last_name, s.first_name;
+        """)
+        columns = [col[0] for col in cursor.description]
+        data = cursor.fetchall()
+
+    return render(request, 'api/query_results_total_due.html', {'columns': columns, 'data': data})
 
 class EnrollmentForm(forms.ModelForm):
     class Meta:

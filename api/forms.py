@@ -1,7 +1,7 @@
 # api/forms.py
 
 from django import forms
-from .models import Enrollment, Student, Teacher, Instrument, ClassPack
+from .models import Enrollment, Student, Teacher, Instrument, ClassPack, Price
 
 class EnrollmentForm(forms.ModelForm):
     class Meta:
@@ -27,3 +27,8 @@ class ClassPackForm(forms.ModelForm):
     class Meta:
         model = ClassPack
         fields = ['name']
+
+class PriceForm(forms.ModelForm):
+    class Meta:
+        model = Price
+        fields = '__all__'
