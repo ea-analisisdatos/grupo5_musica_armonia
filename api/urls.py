@@ -24,6 +24,9 @@ urlpatterns = [
     path('create_teacher/', views.create_teacher, name='create_teacher'),
     path('execute_query/', views.execute_query, name='execute_query'),
     path('create_instrument/', views.create_instrument, name='create_instrument'),
-    path('delete_teacher/<int:teacher_id>/', views.delete_teacher, name='delete_teacher'),
-    path('edit_teacher/<int:teacher_id>/', views.edit_teacher, name='edit_teacher'),  # Añadir esta línea
+    path('delete_teacher/<int:teacher_id>/', views.delete_teacher, name='confirm_delete_teacher'),
+    path('edit_teacher/<int:teacher_id>/', views.edit_teacher, name='edit_teacher'),
+    path('create_class_pack/', views.create_class_pack, name='create_class_pack'),
+    path('edit_class_pack/<int:pk>/', views.edit_class_pack, name='edit_class_pack'),
+    path('delete_class_pack/<int:pk>/', views.delete_class_pack, name='confirm_delete_class_pack'),
 ]

@@ -5,7 +5,7 @@ from .models import Teacher, ClassPack, Instrument, Price, Class, Level, Teacher
 from .serializers import TeacherSerializer, ClassPackSerializer, InstrumentSerializer, PriceSerializer, ClassSerializer, LevelSerializer, TeacherClassSerializer, StudentSerializer, EnrollmentSerializer, ClassPackDiscountRuleSerializer, ClassPackClassSerializer
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm
+from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm, ClassPackForm
 from django import forms
 from django.db import connection
 
@@ -97,20 +97,6 @@ def create_student(request):
     }
     return render(request, 'api/create_student.html', context)
 
-def create_teacher(request):
-    if request.method == 'POST':
-        form = TeacherForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = TeacherForm()
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'api/create_teacher.html', context)
-
 def create_instrument(request):
     if request.method == 'POST':
         form = InstrumentForm(request.POST)
@@ -125,12 +111,30 @@ def create_instrument(request):
     }
     return render(request, 'api/create_instrument.html', context)
 
+def create_teacher(request):
+    if request.method == 'POST':
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = TeacherForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'api/create_teacher.html', context)
+
 def delete_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     if request.method == 'POST':
         teacher.delete()
         return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
-    return render(request, 'api/confirm_delete.html', {'teacher': teacher})
+    context = {
+    'object_type': 'profesor',  # Especifica aquí el tipo de objeto que estás eliminando
+    'teacher': teacher
+    }
+    return render(request, 'api/confirm_delete.html', context)
 
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
@@ -142,6 +146,39 @@ def edit_teacher(request, teacher_id):
     else:
         form = TeacherForm(instance=teacher)
     return render(request, 'api/edit_teacher.html', {'form': form})
+
+
+def create_class_pack(request):
+    if request.method == 'POST':
+        form = ClassPackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ClassPackForm()
+    return render(request, 'api/create_class_pack.html', {'form': form})
+
+def edit_class_pack(request, pk):
+    class_pack = get_object_or_404(ClassPack, pk=pk)
+    if request.method == 'POST':
+        form = ClassPackForm(request.POST, instance=class_pack)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ClassPackForm(instance=class_pack)
+    return render(request, 'api/edit_class_pack.html', {'form': form})
+
+def delete_class_pack(request, pk):
+    class_pack = get_object_or_404(ClassPack, pk=pk)
+    if request.method == 'POST':
+        class_pack.delete()
+        return redirect('home')
+    context = {
+    'object_type': 'paquete de clases',  # Especifica aquí el tipo de objeto que estás eliminando
+    'class_pack': class_pack
+    }
+    return render(request, 'api/confirm_delete.html', context)
 
 def execute_query(request):
     with connection.cursor() as cursor:

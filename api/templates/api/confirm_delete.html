@@ -1,10 +1,20 @@
-{% extends "base_generic.html" %}
+{% extends 'api/base_generic.html' %}
 
 {% block content %}
-  <h2>¿Estás seguro de que deseas eliminar al profesor {{ teacher.name }}?</h2>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
-  </form>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">¿Estás seguro de que deseas eliminar este {{ object_type }}?</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
