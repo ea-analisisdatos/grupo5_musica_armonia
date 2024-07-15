@@ -141,14 +141,22 @@ def delete_instrument(request, instrument_id):
     if request.method == 'POST':
         instrument.delete()
         return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
-    return render(request, 'api/confirm_delete.html', {'instrument': instrument})
+    context = {
+        'object_type': 'instrumento',  # Especifica aquí el tipo de objeto que estás eliminando
+        'teacher': instrument
+    }
+    return render(request, 'api/confirm_delete.html', context)
 
 def delete_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
         student.delete()
         return redirect('home')  # Ajusta 'home' según el nombre de tu vista principal
-    return render(request, 'api/confirm_delete.html', {'student': student})
+    context = {
+        'object_type': 'alumno',  # Especifica aquí el tipo de objeto que estás eliminando
+        'teacher': student
+    }
+    return render(request, 'api/confirm_delete.html', context)
 
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
