@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('docs/', include_docs_urls(title='Documentación de la API Academia de Música')),
     path('', home, name='home'),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
