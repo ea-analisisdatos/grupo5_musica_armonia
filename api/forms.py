@@ -3,6 +3,7 @@
 from django import forms
 from .models import Enrollment, Student, Teacher, Instrument, ClassPack, Price
 
+    
 class EnrollmentForm(forms.ModelForm):
     class Meta:
         model = Enrollment
@@ -11,8 +12,7 @@ class EnrollmentForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = '__all__'  
-        #Todos los campos del modelo Student
+        fields = '__all__'    #Todos los campos del modelo Student
 
 class TeacherForm(forms.ModelForm):
     class Meta:

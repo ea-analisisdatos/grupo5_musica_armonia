@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 
 delete_url = "api/confirm_delete.html"
 edit_pack = "api/edit_class_pack.html"
+
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
@@ -73,26 +74,37 @@ def home(request):
     }
     return render(request, 'api/home.html', context)
 
+
 def create_enrollment(request):
     if request.method == 'POST':
         form = EnrollmentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('home')
+        except IntegrityError as e:
+            print(f"Error de integridad al crear la inscripción: {e}")
+        except Exception as e:
+            print(f"Error al crear la inscripción: {e}")
     else:
         form = EnrollmentForm()
 
-    context = {
-        'form': form,
-    }
+    context = {'form': form}
     return render(request, 'api/create_enrollment.html', context)
 
 def create_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+        try:
+            if form.is_valid():
+                form.save()
+                return redirect('home')
+        except IntegrityError as e:
+            print(f"Error de integridad al crear el estudiante: {e}")
+            form.add_error(None, "Error de integridad al guardar el estudiante.")
+        except Exception as e:
+            print(f"Error al crear el estudiante: {e}")
+            form.add_error(None, "Error al guardar el estudiante.")
     else:
         form = StudentForm()
 
@@ -105,8 +117,12 @@ def create_instrument(request):
     if request.method == 'POST':
         form = InstrumentForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            try:
+                form.save()
+                return redirect('home')
+            except IntegrityError as e:
+                print(f"Error de integridad al crear el instrumento: {e}")
+                form.add_error(None, "Error de integridad al guardar el instrumento.")
     else:
         form = InstrumentForm()
 
