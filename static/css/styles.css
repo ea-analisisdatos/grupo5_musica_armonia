@@ -42,3 +42,18 @@ ul.navbar-nav li {
 .translate-price {
     transform: translate(-190%, -30%) !important;
 }
+.login a{
+    border-radius: 5px;
+    background-color: darkcyan;
+    color: white !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    border: 1px solid lightgrey;
+}
+.login a:hover {
+    background-color: white;
+    color: darkcyan !important;
+    border: 1px solid lightgrey;
+    padding-left:12px;
+    padding-right: 12px;
+}
