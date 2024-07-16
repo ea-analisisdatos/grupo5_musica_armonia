@@ -33,8 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-if DEBUG:
-    warnings.filterwarnings("ignore")
+
 
 # Application definition
 
@@ -81,9 +80,9 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR': False,  # Configuración para no mostrar la barra de herramientas en desarrollo
 }
 
-# INTERNAL_IPS = [
-#     '127.0.0.1',
-# ]
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 ROOT_URLCONF = 'academia_musica.urls'
 
@@ -112,11 +111,11 @@ WSGI_APPLICATION = 'academia_musica.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musica_armonia',  # Nombre de tu base de datos MySQL
-        'USER': 'Mar',
+        'NAME': os.getenv ('BBDD'),  # Nombre de tu base de datos MySQL
+        'USER': os.getenv ('user_db'),
         'PASSWORD': os.getenv ('DB_PASSWORD'),
-        'HOST': 'localhost',  # Cambiar si la base de datos está en otro lugar
-        'PORT': '3306',  # Puerto MySQL
+        'HOST': os.getenv ('SERVIDOR'),  # Cambiar si la base de datos está en otro lugar
+        'PORT': os.getenv ('PUERTO'),  # Puerto MySQL
     },
 }
 
