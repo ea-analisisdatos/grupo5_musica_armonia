@@ -55,17 +55,5 @@
     {% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="{% static 'js/popover-script.js' %}"></script>
-    <script>
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
-            return new bootstrap.Popover(popoverTriggerEl, {
-                html: true,
-                content: function () {
-                    return $(this).attr('data-content'); // Get content from data attribute
-    }
-  });
-});
-    </script>
 </body>
 </html>
