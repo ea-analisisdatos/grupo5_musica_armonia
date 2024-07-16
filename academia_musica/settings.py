@@ -75,13 +75,10 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.profiling.ProfilingPanel',
 ]
 
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR': False,  # Configuración para no mostrar la barra de herramientas en desarrollo
-}
 
-# INTERNAL_IPS = [
+#INTERNAL_IPS = [
 #     '127.0.0.1',
-# ]
+#]
 
 ROOT_URLCONF = 'academia_musica.urls'
 
