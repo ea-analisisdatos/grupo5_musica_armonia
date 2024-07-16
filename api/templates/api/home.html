@@ -87,7 +87,7 @@
                         <p>No hay clases disponibles</p>
                         {% endfor %}
                     </div>
-                    <div class="mt-3">
+                    <div class="mt-3" id="precios">
                         <!-- Aquí iteramos sobre los precios -->
                             <ul class="list-group">
                                 <h3 class="text-secondary">Precios de las Clases</h3>
@@ -106,7 +106,7 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-md-6" id="precios">
+            <div class="col-md-6" id="">
                 <div class="section-background">
                     <h2 class="text-secondary">Paquetes de Clases</h2>
                     <ul class="list-group">
@@ -163,7 +163,7 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-md-6" id="datos">
+            <div class="col-md-6">
                 <div class="section-background">
                     <h2 class="text-secondary">Instrumentos</h2>
                     <ul class="list-group">
@@ -189,7 +189,7 @@
                     <a href="{% url 'create_instrument' %}" class="btn btn-success mt-3">Crear Nuevo Instrumento</a>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6"  id="datos">
                 <div class="section-background">
                     <h2 class="text-secondary">Dashboard</h2>
                     <a href="{% url 'execute_query_month' %}" class="btn btn-dark mt-3">Inscripciones mensuales</a>
