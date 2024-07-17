@@ -1,19 +1,29 @@
-# api/views.py
-
+# Importación de viewsets de Django REST framework
 from rest_framework import viewsets
+
+# Importación de modelos de la aplicación
 from .models import Teacher, ClassPack, Instrument, Price, Class, Level, TeacherClass, Student, Enrollment, ClassPackDiscountRule, ClassPackClass
+
+# Importación de serializadores de la aplicación
 from .serializers import TeacherSerializer, ClassPackSerializer, InstrumentSerializer, PriceSerializer, ClassSerializer, LevelSerializer, TeacherClassSerializer, StudentSerializer, EnrollmentSerializer, ClassPackDiscountRuleSerializer, ClassPackClassSerializer
+
+# Importación de funciones útiles para vistas en Django
 from django.shortcuts import render, redirect, get_object_or_404
+
+# Importación de formularios definidos en la aplicación
 from .forms import EnrollmentForm, StudentForm, TeacherForm, InstrumentForm, ClassPackForm, PriceForm
+
+# Importación de módulos de Django para manejar errores y conexiones a la base de datos
 from django import forms
 from django.db import connection
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 
-
+# Definición de rutas a plantillas HTML específicas
 delete_url = "api/confirm_delete.html"
 edit_pack = "api/edit_class_pack.html"
 
+# Definición de conjuntos de vistas para modelos específicos usando viewsets
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
@@ -58,6 +68,7 @@ class ClassPackClassViewSet(viewsets.ModelViewSet):
     queryset = ClassPackClass.objects.all()
     serializer_class = ClassPackClassSerializer
 
+# Vista para la página principal, mostrando todos los registros de los modelos
 def home(request):
     context = {
         'teachers': Teacher.objects.all(),
@@ -74,7 +85,7 @@ def home(request):
     }
     return render(request, 'api/home.html', context)
 
-
+# Vista para crear una inscripción
 def create_enrollment(request):
     if request.method == 'POST':
         form = EnrollmentForm(request.POST)
@@ -92,6 +103,7 @@ def create_enrollment(request):
     context = {'form': form}
     return render(request, 'api/create_enrollment.html', context)
 
+# Vista para crear un estudiante
 def create_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -113,6 +125,7 @@ def create_student(request):
     }
     return render(request, 'api/create_student.html', context)
 
+# Vista para crear un instrumento
 def create_instrument(request):
     if request.method == 'POST':
         form = InstrumentForm(request.POST)
@@ -131,6 +144,7 @@ def create_instrument(request):
     }
     return render(request, 'api/create_instrument.html', context)
 
+# Vista para crear un profesor
 def create_teacher(request):
     if request.method == 'POST':
         form = TeacherForm(request.POST)
@@ -151,7 +165,7 @@ def create_teacher(request):
     }
     return render(request, 'api/create_teacher.html', context)
 
-
+# Vista para eliminar un profesor
 def delete_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     if request.method == 'POST':
@@ -169,6 +183,7 @@ def delete_teacher(request, teacher_id):
     }
     return render(request, delete_url, context)
 
+# Vista para eliminar un instrumento
 def delete_instrument(request, instrument_id):
     instrument = get_object_or_404(Instrument, id=instrument_id)
     if request.method == 'POST':
@@ -180,6 +195,7 @@ def delete_instrument(request, instrument_id):
     }
     return render(request, delete_url, context)
 
+# Vista para eliminar un estudiante
 def delete_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
@@ -191,6 +207,7 @@ def delete_student(request, student_id):
     }
     return render(request, delete_url, context)
 
+# Vista para editar un profesor
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     
@@ -213,7 +230,7 @@ def edit_teacher(request, teacher_id):
     }
     return render(request, 'api/edit_teacher.html', context)
 
-
+# Vista para crear un paquete de clases
 def create_class_pack(request):
     if request.method == 'POST':
         form = ClassPackForm(request.POST)
@@ -230,6 +247,7 @@ def create_class_pack(request):
     
     return render(request, 'api/create_class_pack.html', {'form': form})
 
+# Vista para editar un instrumento
 def edit_instrument(request, instrument_id):
     instrument = get_object_or_404(Instrument, id=instrument_id)
     if request.method == 'POST':
@@ -251,6 +269,7 @@ def edit_instrument(request, instrument_id):
     
     return render(request, 'api/edit_instrument.html', {'form': form})
 
+# Vista para editar un paquete de clases
 def edit_class_pack(request, pk):
     class_pack = get_object_or_404(ClassPack, pk=pk)
     
@@ -294,6 +313,7 @@ def edit_class_pack(request, pk):
     }
     return render(request, edit_pack, context)
 
+# Vista para editar un estudiante
 def edit_student(request, student_id):
     try:
         student = get_object_or_404(Student, id=student_id)
@@ -308,6 +328,7 @@ def edit_student(request, student_id):
         return render(request, 'api/error.html', {'error_message': 'Estudiante no encontrado'})
     return render(request, 'api/edit_student.html', {'form': form})
 
+# Vista para eliminar un paquete de clases
 def delete_class_pack(request, pk):
     class_pack = get_object_or_404(ClassPack, pk=pk)
     if request.method == 'POST':
@@ -319,6 +340,7 @@ def delete_class_pack(request, pk):
     }
     return render(request, delete_url, context)
 
+# Vista para editar un precio
 def edit_price(request, pk):
     price = get_object_or_404(Price, pk=pk)
     if request.method == 'POST':
@@ -330,6 +352,7 @@ def edit_price(request, pk):
         form = PriceForm(instance=price)
     return render(request, 'api/edit_price.html', {'form': form, 'price': price})
 
+# Vista para ejecutar una consulta SQL personalizada y mostrar resultados por mes
 def execute_query_month(request):
     with connection.cursor() as cursor:
         # Configurar el idioma español para la conexión
@@ -360,6 +383,7 @@ def execute_query_month(request):
 
     return render(request, 'api/query_results_month.html', {'columns': columns, 'data': data})
 
+# Vista para ejecutar una consulta SQL personalizada y mostrar el total de deudas
 def execute_query_total_due(request):
     with connection.cursor() as cursor:
         # Ejecutar la nueva consulta
@@ -403,6 +427,7 @@ def execute_query_total_due(request):
 
     return render(request, 'api/query_results_total_due.html', {'columns': columns, 'data': data})
 
+# Definición de formularios usando ModelForm
 class EnrollmentForm(forms.ModelForm):
     class Meta:
         model = Enrollment
