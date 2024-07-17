@@ -9,23 +9,25 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
+#importaciòn de librerias
 import os
 from dotenv import load_dotenv
+# Cargar variables de entorno desde un archivo .env
 load_dotenv()
 import warnings
 import pymysql
+
+# Configurar pymysql como el conector de MySQL para Django
 pymysql.install_as_MySQLdb()
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
+# Configuración rápida para el desarrollo
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -35,7 +37,7 @@ ALLOWED_HOSTS = []
 
 
 
-# Application definition
+# Definición de aplicaciones instaladas
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,6 +52,8 @@ INSTALLED_APPS = [
     'debug_toolbar'
 ]
 
+#Middleware configurado
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,6 +65,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
+# Paneles de la barra de herramientas de depuración
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',
@@ -81,8 +86,11 @@ DEBUG_TOOLBAR_PANELS = [
 #     '127.0.0.1',
 #]
 
+# Configuración de URLs
 ROOT_URLCONF = 'academia_musica.urls'
 
+
+# Configuración de plantillas
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -99,12 +107,11 @@ TEMPLATES = [
     },
 ]
 
+# Configuración WSGI
 WSGI_APPLICATION = 'academia_musica.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -116,8 +123,7 @@ DATABASES = {
     },
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+# Validadores de contraseña
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -135,8 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
+#configuracion de zona horario, idioma
 
 LANGUAGE_CODE = 'en-us'
 
@@ -147,21 +152,17 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
+# Configuración de archivos estáticos
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]# Opcional para manejo de archivos de usuario (no necesario para esta tarea en específico)
+    BASE_DIR / "static"],
 
+# Configuración de archivos de media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
+# Tipo de campo de clave primaria predeterminado
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
@@ -169,6 +170,7 @@ REST_FRAMEWORK = {
 }
 
 
+# Configuración de registro (logging)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

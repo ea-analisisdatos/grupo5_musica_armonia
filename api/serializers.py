@@ -1,11 +1,15 @@
+# Importa el módulo de serialización de Django REST Framework y los modelos de la aplicación
 from rest_framework import serializers
 from .models import Teacher, ClassPack, Instrument, Price, Class, Level, TeacherClass, Student, Enrollment, ClassPackDiscountRule, ClassPackClass
 
+# Serializador para el modelo Teacher
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = '__all__'
 
+
+# Serializador para el modelo ClassPack
 class ClassPackSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassPack
@@ -54,4 +58,4 @@ class ClassPackDiscountRuleSerializer(serializers.ModelSerializer):
 class ClassPackClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassPackClass
-        fields = '__all__'
+        fields = '__all__' #indica que todos los campos del modelo asociado deben ser incluidos en la serialización
