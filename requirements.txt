@@ -1,4 +1,4 @@
-Django==3.10
+Django==4.2
 djangorestframework==3.12.4
 mysqlclient==2.2.4
 pip==24.1.2
