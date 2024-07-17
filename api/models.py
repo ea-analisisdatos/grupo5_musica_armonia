@@ -2,6 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import re
 
+# Validación personalizada para campos especificos de los formularios
+
 def validate_alpha_space(value):
     # La expresión regular para validar letras (incluyendo tildes), espacios y comas
     if not re.match(r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ ,]*$', str(value)):
@@ -24,7 +26,7 @@ def validate_date_format(value):
     if not re.match(r'^\d{2}/\d{2}/\d{4}$', str(value)):
         raise ValidationError('La fecha debe estar en el formato dd/mm/yyyy y solo puede contener números y /.', code='invalid_date_format')
 
-    
+# Modelo para almacenar información de profesores    
 class Teacher(models.Model):
     name = models.CharField(max_length=100, validators=[validate_alpha_space])
 
@@ -32,7 +34,7 @@ class Teacher(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'Teacher'
+        db_table = 'Teacher' # Nombre de la tabla en la base de datos
 
 class ClassPack(models.Model):
     name = models.CharField(max_length=100, validators=[validate_pack])

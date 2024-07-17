@@ -1,12 +1,12 @@
 import pytest
-from django.db.utils import IntegrityError
 from .models import Teacher, ClassPack, Instrument, Price, Class, Level, TeacherClass, Student, Enrollment, ClassPackDiscountRule, ClassPackClass
 
+# Test para crear un Teacher
 @pytest.mark.django_db
 def test_create_teacher():
     teacher = Teacher.objects.create(name='John Doe')
-    assert Teacher.objects.count() == 1
-    assert teacher.name == 'John Doe'
+    assert Teacher.objects.count() == 1# Verifica que se ha creado un Teacher
+    assert teacher.name == 'John Doe'  # Verifica que el nombre del Teacher es correcto
 
 @pytest.mark.django_db
 def test_create_class_pack():
