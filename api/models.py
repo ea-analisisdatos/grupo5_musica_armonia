@@ -3,8 +3,9 @@ from django.core.exceptions import ValidationError
 import re
 
 def validate_alpha_space(value):
-    if not str(value).replace(" ", "").isalpha():
-        raise ValidationError('Este campo solo puede contener letras y espacios.', code='invalid_alpha_space')
+    # La expresión regular para validar letras (incluyendo tildes), espacios y comas
+    if not re.match(r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ ,]*$', str(value)):
+        raise ValidationError('Este campo solo puede contener letras, espacios, comas y tildes.', code='invalid_alpha_space')
 
 def validate_integer(value):
     if not str(value).isdigit():
@@ -53,7 +54,7 @@ class Instrument(models.Model):
 
 class Price(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[validate_two_decimal])
-    description = models.CharField(max_length=255, blank=True, null=True, validators=[validate_pack])
+    description = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.amount} - {self.description}"
@@ -111,7 +112,7 @@ class Enrollment(models.Model):
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE, db_column='class_id')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, blank=True, null=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE, blank=True, null=True)
-    enrollment_date = models.DateField(validators=[validate_date_format])
+    enrollment_date = models.DateField()
     class_number = models.IntegerField(default=1)
 
     def __str__(self):
